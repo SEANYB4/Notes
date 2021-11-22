@@ -10,6 +10,9 @@ import SwiftUI
 struct ContentView: View {
         // MARK: - PROPERTY
     
+    @AppStorage("linecount") var lineCount: Int = 1
+    
+    
     @State private var notes: [Note] = [Note]()
     @State private var text: String = ""
     
@@ -175,17 +178,19 @@ struct ContentView: View {
                     
                     ForEach(0..<notes.count, id: \.self) { i in
                         
-                        HStack {
-                            Capsule()
-                            .frame(width: 4)
-                            .foregroundColor(.accentColor)
-                            
-                            Text(notes[i].text)
-                                .lineLimit(1)
-                                .padding(.leading, 5)
+                        NavigationLink(destination: DetailView(note: notes[i], count: notes.count, index: i)) {
+                            HStack {
+                                Capsule()
+                                .frame(width: 4)
+                                .foregroundColor(.accentColor)
                                 
+                                Text(notes[i].text)
+                                    .lineLimit(lineCount)
+                                    .padding(.leading, 5)
+                                    
 
-                            
+                                
+                            }
                         } //: HSTACK
                         
                     } //: LOOP
